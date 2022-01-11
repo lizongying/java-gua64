@@ -1,4 +1,4 @@
-package com.lizongying;
+package io.github.lizongying;
 
 import org.junit.Assert;
 import org.junit.Test;

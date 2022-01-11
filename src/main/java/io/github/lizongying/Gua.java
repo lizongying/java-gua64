@@ -1,4 +1,4 @@
-package com.lizongying;
+package io.github.lizongying;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
