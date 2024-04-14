@@ -34,7 +34,6 @@ jobs:
       - id: install-secret-key
         name: Install gpg secret key
         run: |
-#          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
 
       - name: Publish to the Maven Central Repository
@@ -43,11 +42,6 @@ jobs:
           GPG_PRIVATE_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
-
-      - name: Install gpg secret key
-        run: |
-        #          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-             gpg --list-secret-keys --keyid-format LONG
 
       - name: Set up Java for publishing to GitHub Packages
         uses: actions/setup-java@v4
