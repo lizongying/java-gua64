@@ -1,9 +1,7 @@
 package io.github.lizongying;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Gua {
     String gua = "䷁䷖䷇䷓䷏䷢䷬䷋" +
@@ -36,8 +34,8 @@ public class Gua {
             if (i == strLen - 1) {
                 begin = (inByte[i] & 0xff & 0x3) << 4;
                 out.add(this.gua64list[begin]);
-                out.add("☯");
-                out.add("☯");
+                out.add("〇");
+                out.add("〇");
                 continue;
             }
             begin = (inByte[i] & 0xff & 0x3) << 4 | (inByte[i + 1] & 0xff) >> 4;
@@ -45,7 +43,7 @@ public class Gua {
             if (i == strLen - 2) {
                 begin = (inByte[i + 1] & 0xff & 0xf) << 2;
                 out.add(this.gua64list[begin]);
-                out.add("☯");
+                out.add("〇");
                 continue;
             }
             begin = (inByte[i + 1] & 0xff & 0xf) << 2 | (inByte[i + 2] & 0xff) >> 6;
@@ -60,18 +58,18 @@ public class Gua {
         int strLen = str.length();
         int[] in = new int[strLen];
         for (int i = 0; i < strLen; i++) {
-            in[i] = this.gua64dict.getOrDefault(String.valueOf(str.charAt(i)), 0);
+            in[i] = this.gua64dict.getOrDefault(String.valueOf(str.charAt(i)), 255);
         }
         ArrayList<Byte> outBytes = new ArrayList<>();
         int inLen = in.length;
         for (int i = 0; i < inLen; i += 4) {
             outBytes.add((byte) ((in[i] & 0x3f) << 2 | (in[i + 1] >> 4 & 0x3)));
-            int two = (in[i + 1] & 0xf) << 4 | (in[i + 2] >> 2 & 0xf);
-            if (two != 0) {
+            if (in[i + 2] != 255) {
+                int two = (in[i + 1] & 0xf) << 4 | (in[i + 2] >> 2 & 0xf);
                 outBytes.add((byte) two);
             }
-            int three = (in[i + 2] & 0x3) << 6 | (in[i + 3] & 0x3f);
-            if (three != 0) {
+            if (in[i + 3] != 255) {
+                int three = (in[i + 2] & 0x3) << 6 | (in[i + 3] & 0x3f);
                 outBytes.add((byte) three);
             }
         }
@@ -80,6 +78,21 @@ public class Gua {
         for (int i = 0; i < outSize; i++) {
             out[i] = outBytes.get(i);
         }
-        return new String(out);
+        return new String(out, StandardCharsets.UTF_8);
+    }
+
+    public boolean verify(String str) {
+        Set<Character> set = new HashSet<>();
+        for (char c : gua.toCharArray()) {
+            set.add(c);
+        }
+        set.add('〇');
+
+        for (char c : str.toCharArray()) {
+            if (!set.contains(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
