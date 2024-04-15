@@ -42,6 +42,8 @@ public class Test {
         System.out.println(encode);
         String decode = gua.decode("䷯䷬䷿䷶䷸䷬䷀䷌䷌䷎䷼䷲䷰䷳䷸䷘䷔䷭䷒〇");
         System.out.println(decode);
+        Boolean verify = gua.verify("䷯䷬䷿䷶䷸䷬䷀䷌䷌䷎䷼䷲䷰䷳䷸䷘䷔䷭䷒〇");
+        System.out.println(verify);
     }
 }
 ```
