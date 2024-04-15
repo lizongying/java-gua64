@@ -21,14 +21,14 @@
     <dependency>
         <groupId>io.github.lizongying</groupId>
         <artifactId>gua64</artifactId>
-        <version>1.0</version>
+        <version>1.4.3</version>
     </dependency>
     ```
 
 * gradle
     ```
     // https://mvnrepository.com/artifact/io.github.lizongying/gua64
-    implementation("io.github.lizongying:gua64:1.0")
+    implementation("io.github.lizongying:gua64:1.4.3")
     ```
 
 ## example
