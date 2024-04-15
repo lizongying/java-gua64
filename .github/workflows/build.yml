@@ -64,12 +64,18 @@ jobs:
           draft: false
           prerelease: false
 
+      - name: Read version file
+        run: |
+          VERSION=$(cat version.txt)
+          echo "Version number: $VERSION"
+          echo "::set-env name=VERSION::$VERSION"
+
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/gua64-1.1.jar
-          asset_name: gua64-1.1.jar
+          asset_path: ./target/gua64-$VERSION.jar
+          asset_name: gua64-$VERSION.jar
           asset_content_type: application/java-archive
