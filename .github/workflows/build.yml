@@ -68,7 +68,7 @@ jobs:
         run: |
           VERSION=$(sed -n 's/.*<version>\(.*\)<\/version>.*/\1/p' pom.xml | head -n 1)
           echo "Project version: $VERSION"
-          echo "::set-env name=PROJECT_VERSION::$VERSION"
+          echo "PROJECT_VERSION=$VERSION" >> $GITHUB_ENV
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
@@ -76,6 +76,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/gua64-$VERSION.jar
-          asset_name: gua64-$VERSION.jar
+          asset_path: ./target/gua64-${{ env.PROJECT_VERSION }}.jar
+          asset_name: gua64-${{ env.PROJECT_VERSION }}.jar
           asset_content_type: application/java-archive
