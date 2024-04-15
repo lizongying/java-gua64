@@ -30,6 +30,7 @@ jobs:
         name: Install gpg secret key
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
+          gpg --list-secret-keys
 
       - name: Publish to the Maven Central Repository
         run: mvn -Dgpg.passphrase=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} --batch-mode deploy
@@ -37,20 +38,20 @@ jobs:
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
 
-#      - name: Set up Java for publishing to GitHub Packages
-#        uses: actions/setup-java@v4
-#        with:
-#          distribution: 'temurin'
-#          java-version: '21'
-#          server-id: github
+      #      - name: Set up Java for publishing to GitHub Packages
+      #        uses: actions/setup-java@v4
+      #        with:
+      #          distribution: 'temurin'
+      #          java-version: '21'
+      #          server-id: github
 
-#      - name: Publish to GitHub Packages
-#        run: mvn --batch-mode deploy
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #      - name: Publish to GitHub Packages
+      #        run: mvn --batch-mode deploy
+      #        env:
+      #          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      #      - name: Build with Maven
-      #        run: mvn -B package --file pom.xml
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
 
       - name: Create Release
         id: create_release
