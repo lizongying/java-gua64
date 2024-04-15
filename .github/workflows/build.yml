@@ -66,9 +66,9 @@ jobs:
 
       - name: Read version file
         run: |
-          VERSION=$(cat version.txt)
-          echo "Version number: $VERSION"
-          echo "::set-env name=VERSION::$VERSION"
+          VERSION=$(sed -n 's/.*<version>\(.*\)<\/version>.*/\1/p' pom.xml | head -n 1)
+          echo "Project version: $VERSION"
+          echo "::set-env name=PROJECT_VERSION::$VERSION"
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1

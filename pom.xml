@@ -6,7 +6,7 @@
 
     <groupId>io.github.lizongying</groupId>
     <artifactId>gua64</artifactId>
-    <version>${external.project.version}</version>
+    <version>1.4.1</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -34,23 +34,6 @@
     </distributionManagement>
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.5.0</version>
-                <executions>
-                    <execution>
-                        <id>read-version</id>
-                        <goals>
-                            <goal>parse-version</goal>
-                        </goals>
-                        <configuration>
-                            <versionFile>version.txt</versionFile>
-                            <propertyPrefix>external</propertyPrefix>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
