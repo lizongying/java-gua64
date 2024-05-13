@@ -58,7 +58,11 @@ public class Gua {
         int strLen = str.length();
         int[] in = new int[strLen];
         for (int i = 0; i < strLen; i++) {
-            in[i] = this.gua64dict.getOrDefault(String.valueOf(str.charAt(i)), 255);
+            if (this.gua64dict.containsKey(String.valueOf(str.charAt(i)))) {
+                in[i] = this.gua64dict.get(String.valueOf(str.charAt(i)));
+            } else {
+                in[i] = 255;
+            }
         }
         ArrayList<Byte> outBytes = new ArrayList<>();
         int inLen = in.length;
