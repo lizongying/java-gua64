@@ -18,7 +18,7 @@ public class Gua {
 
     public Gua() {
         byte[] guaBytes = gua.getBytes(StandardCharsets.UTF_8);
-        String[] gua64list = new String[(int) Math.ceil((double) guaBytes.length / 3)];
+        gua64list = new String[(int) Math.ceil((double) guaBytes.length / 3)];
         for (int i = 0; i < guaBytes.length; i+=3) {
             String key = new String(guaBytes, i, Math.min(3, guaBytes.length - i), StandardCharsets.UTF_8);
             gua64list[i / 3] = key;
@@ -36,26 +36,26 @@ public class Gua {
         int begin;
         for (int i = 0; i < strLen; i += 3) {
             begin = (inByte[i] & 0xff) >> 2;
-            out.add(this.gua64list[begin]);
+            out.add(gua64list[begin]);
             if (i == strLen - 1) {
                 begin = (inByte[i] & 0xff & 0x3) << 4;
-                out.add(this.gua64list[begin]);
+                out.add(gua64list[begin]);
                 out.add("〇");
                 out.add("〇");
                 continue;
             }
             begin = (inByte[i] & 0xff & 0x3) << 4 | (inByte[i + 1] & 0xff) >> 4;
-            out.add(this.gua64list[begin]);
+            out.add(gua64list[begin]);
             if (i == strLen - 2) {
                 begin = (inByte[i + 1] & 0xff & 0xf) << 2;
-                out.add(this.gua64list[begin]);
+                out.add(gua64list[begin]);
                 out.add("〇");
                 continue;
             }
             begin = (inByte[i + 1] & 0xff & 0xf) << 2 | (inByte[i + 2] & 0xff) >> 6;
-            out.add(this.gua64list[begin]);
+            out.add(gua64list[begin]);
             begin = inByte[i + 2] & 0xff & 0x3f;
-            out.add(this.gua64list[begin]);
+            out.add(gua64list[begin]);
         }
         return String.join("", out);
     }
