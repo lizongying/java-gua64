@@ -21,7 +21,7 @@
     <dependency>
         <groupId>io.github.lizongying</groupId>
         <artifactId>gua64</artifactId>
-        <version>1.4.4</version>
+        <version>1.4.5</version>
     </dependency>
     ```
 

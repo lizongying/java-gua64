@@ -17,9 +17,15 @@ public class Gua {
     Map<String, Integer> gua64dict = new HashMap<>();
 
     public Gua() {
-        this.gua64list = gua.split("");
-        for (int i = 0; i < 64; i++) {
-            this.gua64dict.put(this.gua64list[i], i);
+        byte[] guaBytes = gua.getBytes(StandardCharsets.UTF_8);
+        String[] gua64list = new String[(int) Math.ceil((double) guaBytes.length / 3)];
+        for (int i = 0; i < guaBytes.length; i+=3) {
+            String key = new String(guaBytes, i, Math.min(3, guaBytes.length - i), StandardCharsets.UTF_8);
+            gua64list[i / 3] = key;
+        }
+
+        for (int i = 0; i < gua64list.length; i++) {
+            gua64dict.put(gua64list[i], i);
         }
     }
 
@@ -55,13 +61,14 @@ public class Gua {
     }
 
     public String decode(String str) {
-        int strLen = str.length();
-        int[] in = new int[strLen];
-        for (int i = 0; i < strLen; i++) {
-            if (this.gua64dict.containsKey(String.valueOf(str.charAt(i)))) {
-                in[i] = this.gua64dict.get(String.valueOf(str.charAt(i)));
+        byte[] bytes = str.getBytes(StandardCharsets.UTF_8);
+        int[] in = new int[(int) Math.ceil((double) bytes.length / 3)];
+        for (int i = 0; i < bytes.length; i += 3) {
+            String key = new String(bytes, i, Math.min(3, bytes.length - i), StandardCharsets.UTF_8);
+            if (gua64dict.containsKey(key)) {
+                in[i / 3] = gua64dict.get(key);
             } else {
-                in[i] = 255;
+                in[i / 3] = 255;
             }
         }
         ArrayList<Byte> outBytes = new ArrayList<>();
